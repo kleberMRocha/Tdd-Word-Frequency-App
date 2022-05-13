@@ -1,8 +1,18 @@
 <template>
   <nav class="header-app">
       <strong>Word Frequency Counter</strong>
-      <router-link :to="'/'">Home</router-link>
-      <router-link :to="'/Ranking'">Ranking</router-link>
+      <div>
+      <router-link :to="'/'">
+        <span>
+          <font-awesome-icon icon="home" /> Home
+      </span>
+      </router-link>
+      <router-link :to="'/Ranking'">
+        <span>
+            <font-awesome-icon icon="trophy" /> Ranking
+        </span>
+      </router-link>
+      </div>
   </nav>
 </template>
 
@@ -18,14 +28,20 @@ export default {
   font-weight: bold;
   display: flex;
   gap: 16px;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  padding: 8px;
+  padding: 4px 16px;
   height: 80px;
 }
 
-.header-app a, strong {
+.header-app strong,span {
   color: #F2F2F2;
+  margin: 0 16px;
+  transition: .5s;
+}
+
+.header-app span:hover{
+   color: #b89eff;
 }
 
 </style>
