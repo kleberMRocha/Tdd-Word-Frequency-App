@@ -1,13 +1,17 @@
 <template>
   <div class="home">
-    <h2>Bom dia</h2>
+    <WordTextArea />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import WordTextArea from '@/components/WordTextArea.vue'
 
 export default {
-  name: 'Home'
+  name: 'Home',
+  components: {
+    WordTextArea
+  }
 }
 </script>
