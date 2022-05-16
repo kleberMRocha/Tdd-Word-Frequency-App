@@ -1,7 +1,7 @@
 <template>
   <nav class="header-app">
       <strong>Word Frequency Counter</strong>
-      <div>
+      <div class="nav-container">
       <router-link :to="'/'">
         <span>
           <font-awesome-icon icon="home" /> Home
@@ -42,6 +42,12 @@ export default {
 
 .header-app span:hover{
    color: #b89eff;
+}
+
+.nav-container{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 </style>

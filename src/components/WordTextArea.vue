@@ -16,7 +16,7 @@ export default {
     const wordCount = ref('')
     const info = computed(() => {
       return {
-        true: '',
+        true: `Caracteres ${wordCount.value.length}`,
         [wordCount.value.length === 250]: 'Maximo de caracteres foi atigido',
         [!wordCount.value.length]: 'Digite um texto para que as palavras sejam contadas'
       }.true

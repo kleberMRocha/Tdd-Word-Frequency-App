@@ -19,30 +19,23 @@ describe('WordTextArea.vue', () => {
     expect(btns.at(0).text()).toBe('Salvar')
     expect(btns.at(1).text()).toBe('Limpar')
   })
-  it('deve exibir informações conforme o andamento do processo de contagem de palavras', () => {
-    const info = wrapper.find('.info')
-    expect(info).toBeTruthy()
-    expect(info.text()).toContain('Digite um texto para que as palavras sejam contadas')
+  it('Deve exibir informações conforme o andamento do processo de contagem de palavras', () => {
+    expect(wrapper.vm.info).toContain('Digite um texto para que as palavras sejam contadas')
     wrapper.vm.wordCount = 'teste, teste'
-    expect(info.text()).toContain('')
-
-    const maxLength = Array(250).fill('x').join('')
-    wrapper.vm.wordCount = maxLength
-
-    wrapper.vm.$nextTick(() => {
-      expect(info.text()).toContain('Maximo de caracteres foi atigido')
-    })
-
+    expect(wrapper.vm.info).toContain('Caracteres 12')
+  })
+  it('Deve avisar qaundo o limite de caracteres chegar a 250', () => {
+    wrapper.vm.wordCount = Array(250).fill('x').join('')
+    expect(wrapper.vm.info).toContain('Maximo de caracteres foi atigido')
   })
   it('Deve Limpar a textArea ao clicar no botão limpar', () => {
     wrapper.vm.wordCount = 'teste, teste'
-    const btn = wrapper.find('[data-test-limpar]')
-    btn.trigger('click')
+    wrapper.vm.handleCleanWordCount()
     expect(wrapper.vm.wordCount).toBe('')
   })
   it('Deve desabilitar o botão limpar quando não existir texto na textArea', () => {
-    expect(wrapper.vm.wordCount).toBe('')
-    const btn = wrapper.find('[data-test-limpar]')
-    expect(btn.attributes().disabled).toBeTruthy()
+    expect(wrapper.vm.isFilled).toBe(false)
+    wrapper.vm.wordCount = 'teste'
+    expect(wrapper.vm.isFilled).toBe(true)
   })
 })
