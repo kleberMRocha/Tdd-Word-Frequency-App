@@ -2,8 +2,9 @@
 <div class="word-container">
   <textarea v-model="wordCount" class="text-area-words" maxlength="250" />
   <span class="info">{{info}}</span>
+  {{wordCountResult}}
   <div class="btn-container">
-      <button type="button" data-test-salvar>Salvar</button>
+      <button type="button" data-test-salvar @click="handleShowResult">Salvar</button>
       <button type="button" :disabled="!isFilled" @click="handleCleanWordCount" data-test-limpar>Limpar</button>
   </div>
 </div>
@@ -12,7 +13,7 @@
 <script>
 import { ref, computed } from 'vue'
 export default {
-  setup () {
+  setup (_, { emit }) {
     const wordCount = ref('')
     const info = computed(() => {
       return {
@@ -26,10 +27,39 @@ export default {
       return Boolean(wordCount.value.length)
     })
 
+    const wordCountResult = computed(() => {
+      if (!(wordCount.value)) return ''
+      const wordList = wordCount.value.split(' ')
+
+      const objArray = wordList.map(w => {
+        return { [w]: wordList.filter(word => word === w).length }
+      })
+
+      const finalArray = []
+      objArray.forEach(w => {
+        if (!finalArray.length) {
+          finalArray.push(w)
+          return
+        }
+
+        const isDuplicate = finalArray.find(word => {
+          return Object.keys(word)[0] === Object.keys(w)[0]
+        })
+
+        if (!isDuplicate) finalArray.push(w)
+      })
+      return finalArray.filter(w => Object.keys(w)[0] !== '')
+    })
+
     const handleCleanWordCount = () => {
       wordCount.value = ''
     }
-    return { wordCount, info, isFilled, handleCleanWordCount }
+
+    const handleShowResult = () => {
+      emit('showResult', wordCountResult)
+    }
+
+    return { wordCount, info, isFilled, handleCleanWordCount, handleShowResult, wordCountResult }
   }
 
 }

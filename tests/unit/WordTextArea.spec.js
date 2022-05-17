@@ -38,4 +38,31 @@ describe('WordTextArea.vue', () => {
     wrapper.vm.wordCount = 'teste'
     expect(wrapper.vm.isFilled).toBe(true)
   })
+  it('Deve dividir a frase e contar as palavras', () => {
+    wrapper.vm.wordCount = 'Isso é um teste teste'
+
+    expect(wrapper.vm.wordCountResult).toStrictEqual([
+      { Isso: 1 },
+      { é: 1 },
+      { um: 1 },
+      { teste: 2 }
+    ])
+  })
+  it('Não Deve contabilizar os espaços', () => {
+    wrapper.vm.wordCount = 'Isso é um teste teste    '
+    expect(wrapper.vm.wordCountResult.length).toBe(4)
+    expect(wrapper.vm.wordCountResult).toStrictEqual([
+      { Isso: 1 },
+      { é: 1 },
+      { um: 1 },
+      { teste: 2 }
+    ])
+  })
+  it('Deve Emitir um evento ao clicar em salvar', () => {
+    wrapper.vm.wordCount = 'Isso é um teste teste'
+    wrapper.vm.handleShowResult()
+    console.log(wrapper.emitted())
+    expect(wrapper.emitted().showResult).toBeTruthy()
+    expect(wrapper.emitted().showResult.length).toBe(1)
+  })
 })
