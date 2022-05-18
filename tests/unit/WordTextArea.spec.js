@@ -61,7 +61,6 @@ describe('WordTextArea.vue', () => {
   it('Deve Emitir um evento ao clicar em salvar', () => {
     wrapper.vm.wordCount = 'Isso é um teste teste'
     wrapper.vm.handleShowResult()
-    console.log(wrapper.emitted())
     expect(wrapper.emitted().showResult).toBeTruthy()
     expect(wrapper.emitted().showResult.length).toBe(1)
   })

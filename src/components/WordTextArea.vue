@@ -2,7 +2,6 @@
 <div class="word-container">
   <textarea v-model="wordCount" class="text-area-words" maxlength="250" />
   <span class="info">{{info}}</span>
-  {{wordCountResult}}
   <div class="btn-container">
       <button type="button" data-test-salvar @click="handleShowResult">Salvar</button>
       <button type="button" :disabled="!isFilled" @click="handleCleanWordCount" data-test-limpar>Limpar</button>
@@ -13,6 +12,7 @@
 <script>
 import { ref, computed } from 'vue'
 export default {
+  name: 'TextArea',
   setup (_, { emit }) {
     const wordCount = ref('')
     const info = computed(() => {

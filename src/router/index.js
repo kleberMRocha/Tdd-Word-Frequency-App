@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import Ranking from '../views/Ranking.vue'
 
 const routes = [
   {
@@ -10,7 +11,7 @@ const routes = [
   {
     path: '/Ranking',
     name: 'Ranking',
-    component: Home
+    component: Ranking
   }
 ]
 
