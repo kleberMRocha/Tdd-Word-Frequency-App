@@ -33,6 +33,11 @@ describe('WordTextArea.vue', () => {
     wrapper.vm.handleCleanWordCount()
     expect(wrapper.vm.wordCount).toBe('')
   })
+  it('Ao Limpar a caixa de texto deve emitir um evento para atualizar a tabela e limpar os valores', () => {
+    wrapper.vm.handleCleanWordCount()
+    expect(wrapper.emitted().showResult).toBeTruthy()
+    expect(wrapper.emitted().showResult.length).toBe(1)
+  })
   it('Deve desabilitar o botão limpar quando não existir texto na textArea', () => {
     expect(wrapper.vm.isFilled).toBe(false)
     wrapper.vm.wordCount = 'teste'
@@ -40,24 +45,37 @@ describe('WordTextArea.vue', () => {
   })
   it('Deve dividir a frase e contar as palavras', () => {
     wrapper.vm.wordCount = 'Isso é um teste teste'
-
-    expect(wrapper.vm.wordCountResult).toStrictEqual([
-      { Isso: 1 },
-      { é: 1 },
-      { um: 1 },
-      { teste: 2 }
-    ])
+    expect(wrapper.vm.wordCountResult).toStrictEqual(
+      [
+        { title: 'teste', value: 2 },
+        { title: 'Isso', value: 1 },
+        { title: 'é', value: 1 },
+        { title: 'um', value: 1 }
+      ]
+    )
   })
   it('Não Deve contabilizar os espaços', () => {
     wrapper.vm.wordCount = 'Isso é um teste teste    '
     expect(wrapper.vm.wordCountResult.length).toBe(4)
     expect(wrapper.vm.wordCountResult).toStrictEqual([
-      { Isso: 1 },
-      { é: 1 },
-      { um: 1 },
-      { teste: 2 }
+      { title: 'teste', value: 2 },
+      { title: 'Isso', value: 1 },
+      { title: 'é', value: 1 },
+      { title: 'um', value: 1 }
     ])
   })
+
+  it('Deve Ordenar o Array iniciando pela palavra com o valor maior', () => {
+    wrapper.vm.wordCount = 'Isso é é é um teste teste teste teste'
+    expect(wrapper.vm.wordCountResult.length).toBe(4)
+    expect(wrapper.vm.wordCountResult).toStrictEqual([
+      { title: 'teste', value: 4 },
+      { title: 'é', value: 3 },
+      { title: 'Isso', value: 1 },
+      { title: 'um', value: 1 }
+    ])
+  })
+
   it('Deve Emitir um evento ao clicar em salvar', () => {
     wrapper.vm.wordCount = 'Isso é um teste teste'
     wrapper.vm.handleShowResult()

@@ -32,7 +32,7 @@ export default {
       const wordList = wordCount.value.split(' ')
 
       const objArray = wordList.map(w => {
-        return { [w]: wordList.filter(word => word === w).length }
+        return { title: w, value: wordList.filter(word => word === w).length }
       })
 
       const finalArray = []
@@ -41,18 +41,19 @@ export default {
           finalArray.push(w)
           return
         }
-
         const isDuplicate = finalArray.find(word => {
-          return Object.keys(word)[0] === Object.keys(w)[0]
+          return word.title === w.title
         })
 
         if (!isDuplicate) finalArray.push(w)
       })
-      return finalArray.filter(w => Object.keys(w)[0] !== '')
+      return finalArray.filter(w => w.title !== '')
+        .sort((a, b) => a.value > b.value ? -1 : 1)
     })
 
     const handleCleanWordCount = () => {
       wordCount.value = ''
+      emit('showResult', [])
     }
 
     const handleShowResult = () => {

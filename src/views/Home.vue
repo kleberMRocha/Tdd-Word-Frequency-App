@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <WordTextArea @showResult="setResult" />
-    <TableInfos />
+    <TableInfos :infos="result" />
   </div>
 </template>
 
