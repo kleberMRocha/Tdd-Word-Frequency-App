@@ -34,4 +34,22 @@ describe('TableInfos.vue', () => {
     expect(wrapper.findAll('[data-test="table"]').at(2).html()).toContain('um')
     expect(wrapper.findAll('[data-test="table"]').at(3).html()).toContain('teste')
   })
+
+  it('O botão de salvar as inforamções no ranking não deve ser exibida caso não exista inforamções na tabela', async () => {
+    wrapper = mount(TableInfos)
+    expect(wrapper.vm.hasInfos).toBeFalsy()
+    await wrapper.setProps({
+      infos: [
+        { title: 'Isso', value: 1 },
+        { title: 'é', value: 1 },
+        { title: 'um', value: 1 },
+        { title: 'teste', value: 2 }
+      ]
+    })
+    expect(wrapper.vm.hasInfos).toBeTruthy()
+  })
+
+  it('Deve salvar as informações no localstorage quando o botão "Savlar informações para o ranking" for clickado', () => {
+
+  })
 })
