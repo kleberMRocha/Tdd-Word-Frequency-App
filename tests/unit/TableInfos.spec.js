@@ -49,7 +49,9 @@ describe('TableInfos.vue', () => {
     expect(wrapper.vm.hasInfos).toBeTruthy()
   })
 
-  it('Deve salvar as informações no localstorage quando o botão "Savlar informações para o ranking" for clickado', () => {
-
+  it('Deve salvar as informações no localstorage quando o botão "Savlar informações para o ranking" for clickado', async () => {
+    const saveRanking = jest.spyOn(wrapper.vm, 'saveRanking')
+    await wrapper.find('button').trigger('click')
+    expect(saveRanking).toHaveBeenCalled()
   })
 })

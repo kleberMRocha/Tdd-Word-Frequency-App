@@ -13,7 +13,7 @@
     </tr>
     </tbody>
   </table>
-  <button v-if="hasInfos" @click="saveRanking" :disabled="savedInLocalstorage" >
+  <button data-test v-if="hasInfos" @click="saveRanking" :disabled="savedInLocalstorage" >
     <font-awesome-icon icon="trophy" />
     Savlar informações para o ranking
    </button>
@@ -49,7 +49,28 @@ export default {
         localStorage.setItem('@TDDAPP', JSON.stringify(this.infos))
         return
       }
-      old.map(w => console.log(w))
+
+      const clone = JSON.parse(JSON.stringify(this.infos))
+
+      const newArray = []
+
+      old.forEach(w => {
+        // todo corrigir logica
+
+        const hasWord = clone.find(word => word.title === w.title)
+        const newWord = clone.find(word => word.title !== w.title)
+
+        if (newWord) {
+          newArray.push(newWord)
+        }
+
+        if (hasWord) {
+          w.value = w.value + hasWord.value
+          newArray.push(w)
+        }
+      })
+
+      localStorage.setItem('@TDDAPP', JSON.stringify(newArray))
     }
   }
 }
