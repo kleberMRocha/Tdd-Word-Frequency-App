@@ -45,33 +45,29 @@ export default {
     saveRanking () {
       this.savedInLocalstorage = true
       const old = JSON.parse(localStorage.getItem('@TDDAPP'))
+      const newWord = JSON.parse(JSON.stringify(this.infos))
+
       if (!old) {
         localStorage.setItem('@TDDAPP', JSON.stringify(this.infos))
-        return
       }
 
-      const clone = JSON.parse(JSON.stringify(this.infos))
-
-      const newArray = []
-
-      old.forEach(w => {
-        // todo corrigir logica
-
-        const hasWord = clone.find(word => word.title === w.title)
-        const newWord = clone.find(word => word.title !== w.title)
-
-        if (newWord) {
-          newArray.push(newWord)
-        }
-
-        if (hasWord) {
-          w.value = w.value + hasWord.value
-          newArray.push(w)
-        }
+      const uniqueWords = newWord.filter(u => {
+        return !(old.find(o => o.title === u.title))
       })
 
-      localStorage.setItem('@TDDAPP', JSON.stringify(newArray))
+      const result = old.map(r => {
+        const w = newWord.find(w => w.title === r.title)
+        if (w) {
+          r.value = r.value += w.value
+        }
+        return r
+      })
+
+      const finalResult = [...result, ...uniqueWords]
+
+      localStorage.setItem('@TDDAPP', JSON.stringify(finalResult))
     }
+
   }
 }
 </script>
