@@ -68,6 +68,13 @@ export default {
       localStorage.setItem('@TDDAPP', JSON.stringify(finalResult))
     }
 
+  },
+  watch: {
+    hasInfos (value) {
+      if (!value) {
+        this.savedInLocalstorage = false
+      }
+    }
   }
 }
 </script>
